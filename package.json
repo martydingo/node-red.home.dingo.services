@@ -1,0 +1,12 @@
+{
+    "name": "node-red-home-dingo-services",
+    "description": "Node-Red Repository for home.dingo.services",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "flow.json",
+            "credentialsFile": "flow_cred.json"
+        }
+    }
+}
