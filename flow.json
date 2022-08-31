@@ -1,1 +1,299 @@
-[]
+[
+    {
+        "id": "f5e343637316b26c",
+        "type": "tab",
+        "label": "Darkness Sensors",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6ecc19a3a780a2a8",
+        "type": "subflow",
+        "name": "Darkness Deducer",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 120,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "fe8e7787445a7cdc"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 420,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "fe8e7787445a7cdc",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "9c2e8b9cf8df4244",
+        "type": "server",
+        "name": "home.dingo.services",
+        "version": 4,
+        "addon": false,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": true,
+        "heartbeatInterval": "30",
+        "areaSelector": "friendlyName",
+        "deviceSelector": "friendlyName",
+        "entitySelector": "friendlyName",
+        "statusSeparator": ": ",
+        "statusYear": "hidden",
+        "statusMonth": "short",
+        "statusDay": "numeric",
+        "statusHourCycle": "h23",
+        "statusTimeFormat": "h:m"
+    },
+    {
+        "id": "fe8e7787445a7cdc",
+        "type": "function",
+        "z": "6ecc19a3a780a2a8",
+        "name": "",
+        "func": "if(msg.payload < darkLuxValue){\n    isDark = true\n} else if(msg.payload > darkLuxValue){\n    isDark = false\n}\n\nreturnMsg = {\n    \"payload\": isDark\n}\n\nreturn returnMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\ndarkLuxValue = 100",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6bb618b8c490cc25",
+        "type": "subflow:6ecc19a3a780a2a8",
+        "z": "f5e343637316b26c",
+        "name": "Bedroom Darkness Deducer",
+        "x": 1520,
+        "y": 140,
+        "wires": [
+            [
+                "dd5a4cd557bf9752"
+            ]
+        ]
+    },
+    {
+        "id": "d37e6dec409d39f6",
+        "type": "poll-state",
+        "z": "f5e343637316b26c",
+        "name": "",
+        "server": "9c2e8b9cf8df4244",
+        "version": 2,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "updateinterval": "30",
+        "updateIntervalType": "num",
+        "updateIntervalUnits": "seconds",
+        "outputinitially": true,
+        "outputonchanged": true,
+        "entity_id": "sensor.bedroom_lux_sensor_illuminance_lux",
+        "state_type": "num",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "x": 1140,
+        "y": 140,
+        "wires": [
+            [
+                "6bb618b8c490cc25"
+            ]
+        ]
+    },
+    {
+        "id": "67de154ddb324b03",
+        "type": "poll-state",
+        "z": "f5e343637316b26c",
+        "name": "",
+        "server": "9c2e8b9cf8df4244",
+        "version": 2,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "updateinterval": "30",
+        "updateIntervalType": "num",
+        "updateIntervalUnits": "seconds",
+        "outputinitially": true,
+        "outputonchanged": true,
+        "entity_id": "sensor.office_lux_sensor_illuminance",
+        "state_type": "num",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "x": 1120,
+        "y": 200,
+        "wires": [
+            [
+                "9e9a30cd98b560bb"
+            ]
+        ]
+    },
+    {
+        "id": "20e679fcc3c48ce9",
+        "type": "ha-entity",
+        "z": "f5e343637316b26c",
+        "name": "Office Darkness Sensor",
+        "server": "9c2e8b9cf8df4244",
+        "version": 2,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "binary_sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "Office Darkness Sensor"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:brightness-4"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "state": "payload",
+        "stateType": "msg",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "payload",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "outputOnStateChange": false,
+        "outputPayload": "",
+        "outputPayloadType": "str",
+        "x": 1790,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9e9a30cd98b560bb",
+        "type": "subflow:6ecc19a3a780a2a8",
+        "z": "f5e343637316b26c",
+        "name": "Office Darkness Deducer",
+        "x": 1510,
+        "y": 200,
+        "wires": [
+            [
+                "20e679fcc3c48ce9"
+            ]
+        ]
+    },
+    {
+        "id": "dd5a4cd557bf9752",
+        "type": "ha-entity",
+        "z": "f5e343637316b26c",
+        "name": "Bedroom Darkness Sensor",
+        "server": "9c2e8b9cf8df4244",
+        "version": 2,
+        "debugenabled": false,
+        "outputs": 1,
+        "entityType": "binary_sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "Bedroom Darkness Sensor"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:brightness-4"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "state": "payload",
+        "stateType": "msg",
+        "attributes": [],
+        "resend": true,
+        "outputLocation": "payload",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "outputOnStateChange": false,
+        "outputPayload": "",
+        "outputPayloadType": "str",
+        "x": 1800,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b18e3bef66e18c2d",
+        "type": "watch",
+        "z": "f5e343637316b26c",
+        "name": "",
+        "files": "",
+        "recursive": "",
+        "x": 1210,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    }
+]
